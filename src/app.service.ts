@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-interface Book {
+export interface Book {
   id: string;
   title: string;
   description: string;
@@ -20,18 +20,20 @@ export class AppService {
       title,
       description,
       file,
-    })
+    });
   }
   editBook(id: string, title: string, description: string): void {
     this.books = this.books.map((book) => ({
       ...book,
       title: book.id === id ? title : book.title,
       description: book.id === id ? description : book.description,
-    })
-    )
+    }));
   }
   delBook(id: string): void {
-    this.books = this.books.filter((el) => el.id !== id);
+    this.books.forEach((el, index) => {
+      if (el.id === id) {
+        this.books.splice(index, 1);
+      }
+    });
   }
-
 }
